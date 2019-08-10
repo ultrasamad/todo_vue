@@ -1,4 +1,6 @@
-# todo_vue
+# TODOVUE
+
+#### A basic todo application in vue + vuex + vuetify
 
 ## Project setup
 ```
