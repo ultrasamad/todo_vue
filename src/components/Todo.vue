@@ -2,7 +2,10 @@
     <v-hover v-slot:default="{ hover }">
         <v-list-item @dblclick="editTodo">
             <v-list-item-action>
-                <v-checkbox color="primary" v-model="todo.completed"></v-checkbox>
+                <v-checkbox 
+                    color="primary" 
+                    v-model="todo.completed"
+                    @change="toggle"></v-checkbox>
             </v-list-item-action>
 
             <v-list-item-content v-show="!editing">
@@ -29,6 +32,9 @@
 <script>
 
 import { mapMutations } from 'vuex'
+import { mapState } from 'vuex'
+
+import { syncTodos } from '../storage'
 
 export default {
     props: {
@@ -42,6 +48,13 @@ export default {
             editing: false,
         }
     },
+
+    computed: {
+        ...mapState({
+            todos: state => state.todos,
+        })
+    },
+
     methods: {
         ...mapMutations({
             'removeTodo': 'REMOVE_TODO'
@@ -55,6 +68,11 @@ export default {
             this.editing = false
             //commit update mutation
             this.$store.commit('UPDATE_TODO', this.todo)
+        },
+
+        //Toggling state of todo
+        toggle() {
+            syncTodos(this.todos)
         }
     }
 }

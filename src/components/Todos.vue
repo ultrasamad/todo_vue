@@ -38,6 +38,8 @@ import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import { mapMutations } from 'vuex'
 
+import * as Storage from '../storage'
+
 import Todo from './Todo'
 
 export default {
@@ -77,9 +79,18 @@ export default {
             }
             this.$store.commit('ADD_TODO', item)
             this.newTodo = null
-        },
+
+            //Sync with local storage
+            Storage.syncTodos(this.todos)
+        }
     },
-    mounted() {}
+    mounted() {
+        let todos = Storage.getTodos()
+        if (!todos) {// A temporal workaround for converting null to empty array
+            todos = [] 
+        }
+        this.$store.commit('LOAD_TODOS', todos)
+    }
 }
 </script>
 
