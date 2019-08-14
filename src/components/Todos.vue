@@ -8,7 +8,10 @@
                       <v-text-field label="Add todo or double click an item to edit" v-model="newTodo"></v-text-field>
                   </v-form>
                 <v-list>
-                    <v-subheader>All Todos ({{ todosCount }})</v-subheader>
+                    <v-subheader>
+                        <span>All Todos ({{ todosCount }})</span> &nbsp;&nbsp;
+                        <span><a href="" @click.prevent="clearTodos">Clear Todos</a></span>
+                    </v-subheader>
                     <v-list-item-group multiple>
                         <todo v-for="todo in todos" :todo="todo" :key="todo.id"></todo>
                     </v-list-item-group>
@@ -80,6 +83,11 @@ export default {
             this.$store.commit('ADD_TODO', item)
             this.newTodo = null
 
+            //Sync with local storage
+            Storage.syncTodos(this.todos)
+        },
+        clearTodos() {
+            this.$store.commit('CLEAR_TODOS')
             //Sync with local storage
             Storage.syncTodos(this.todos)
         }

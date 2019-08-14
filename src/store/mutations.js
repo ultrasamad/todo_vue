@@ -1,5 +1,5 @@
 
-import {ADD_TODO, REMOVE_TODO, UPDATE_TODO, LOAD_TODOS} from './mutation-types';
+import {ADD_TODO, REMOVE_TODO, UPDATE_TODO, LOAD_TODOS, CLEAR_TODOS} from './mutation-types';
 import * as Storage from '../storage'
 
 export default {
@@ -19,5 +19,9 @@ export default {
 
     [LOAD_TODOS](state, todos) {
         state.todos = todos
+    },
+
+    [CLEAR_TODOS](state) {
+        state.todos = []
     }
 }
